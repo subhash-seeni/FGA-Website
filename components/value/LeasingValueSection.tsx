@@ -5,6 +5,7 @@ import Image from "next/image";
 import { businessValueData } from "@/lib/data/homepageContent";
 import { Check, X } from "lucide-react";
 import { gsap, useGSAP } from "@/lib/animations/gsap";
+import { assetPath } from "@/lib/utils/basePath";
 
 export default function LeasingValueSection() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -196,7 +197,7 @@ export default function LeasingValueSection() {
             >
               <div style={{ position: "relative", width: "100%", height: "160px" }}>
                 <Image
-                  src="/images/construction-warehouse.jpg"
+                  src={assetPath("/images/construction-warehouse.jpg")}
                   alt="Industrial Infrastructure and Warehouse Fleet Mobilization"
                   fill
                   sizes="(max-width: 900px) 100vw, 40vw"

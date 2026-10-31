@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Mail, MapPin } from "lucide-react";
 import { footerData } from "@/lib/data/homepageContent";
+import { assetPath } from "@/lib/utils/basePath";
 
 export default function EditorialFooter() {
   return (
@@ -35,7 +36,7 @@ export default function EditorialFooter() {
           <div>
             <div style={{ position: "relative", width: "142px", height: "42px", marginBottom: "16px", filter: "brightness(0) invert(1)" }}>
               <Image
-                src="/firstgen-logo-transparent.png"
+                src={assetPath("/firstgen-logo-transparent.png")}
                 alt="Firstgen Assets Private Limited Corporate Identity"
                 fill
                 sizes="142px"

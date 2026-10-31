@@ -7,6 +7,7 @@ import { ArrowUp, Mail, MapPin } from "lucide-react";
 import { footerData } from "@/lib/data/homepageContent";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { assetPath } from "@/lib/utils/basePath";
 
 export default function TypographicFooter() {
   const footerRef = useRef<HTMLElement>(null);
@@ -86,7 +87,7 @@ export default function TypographicFooter() {
               }}
             >
               <Image
-                src="/firstgen-logo-transparent.png"
+                src={assetPath("/firstgen-logo-transparent.png")}
                 alt="Firstgen Assets Corporate Identity"
                 fill
                 sizes="154px"

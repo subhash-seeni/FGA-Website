@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import { navigationData } from "@/lib/data/homepageContent";
+import { assetPath } from "@/lib/utils/basePath";
 
 interface EditorialNavbarProps {
   onOpenEnquiry: () => void;
@@ -55,7 +56,7 @@ export default function EditorialNavbar({ onOpenEnquiry }: EditorialNavbarProps)
           >
             <div style={{ position: "relative", width: "142px", height: "42px" }}>
               <Image
-                src="/firstgen-logo-transparent.png"
+                src={assetPath("/firstgen-logo-transparent.png")}
                 alt="Firstgen Assets Private Limited Official Logo"
                 fill
                 sizes="142px"

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { heroData } from "@/lib/data/homepageContent";
 import { gsap, useGSAP } from "@/lib/animations/gsap";
+import { assetPath } from "@/lib/utils/basePath";
 
 interface EditorialHeroProps {
   onOpenEnquiry: () => void;
@@ -227,7 +228,7 @@ export default function EditorialHero({ onOpenEnquiry }: EditorialHeroProps) {
               }}
             >
               <Image
-                src="/images/luxury-fleet.jpg"
+                src={assetPath("/images/luxury-fleet.jpg")}
                 alt="Firstgen Assets Luxury Executive Fleet"
                 fill
                 sizes="(max-width: 900px) 100vw, 40vw"

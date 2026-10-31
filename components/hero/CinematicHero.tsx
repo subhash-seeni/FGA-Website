@@ -7,6 +7,7 @@ import { ArrowRight, ChevronDown, Sparkles } from "lucide-react";
 import { heroData } from "@/lib/data/homepageContent";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { assetPath } from "@/lib/utils/basePath";
 
 interface CinematicHeroProps {
   onOpenEnquiry: () => void;
@@ -227,7 +228,7 @@ export default function CinematicHero({ onOpenEnquiry }: CinematicHeroProps) {
               {/* Asset Photograph */}
               <div style={{ position: "relative", width: "100%", height: "460px" }}>
                 <Image
-                  src="/images/luxury-fleet.jpg"
+                  src={assetPath("/images/luxury-fleet.jpg")}
                   alt="Luxury Fleet and Commercial Mobility"
                   fill
                   sizes="(max-width: 900px) 100vw, 45vw"

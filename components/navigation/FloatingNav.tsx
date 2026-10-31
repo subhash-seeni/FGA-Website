@@ -6,6 +6,7 @@ import Link from "next/link";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { assetPath } from "@/lib/utils/basePath";
 
 interface FloatingNavProps {
   onOpenEnquiry: () => void;
@@ -123,7 +124,7 @@ export default function FloatingNav({ onOpenEnquiry }: FloatingNavProps) {
           >
             <div style={{ position: "relative", width: "115px", height: "30px", filter: "brightness(0) invert(1)" }}>
               <Image
-                src="/firstgen-logo-transparent.png"
+                src={assetPath("/firstgen-logo-transparent.png")}
                 alt="Firstgen Assets"
                 fill
                 sizes="115px"

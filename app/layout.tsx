@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { assetPath } from "@/lib/utils/basePath";
 import "./globals.css";
 
 export const viewport: Viewport = {
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
   description:
     "Firstgen Assets structures operating leases for luxury vehicle fleets, heavy construction equipment, and enterprise IT hardware. 48-hour delivery. ₹0 down payment. Ahmedabad, India.",
   icons: {
-    icon: "/firstgen-logo-transparent.png",
+    icon: assetPath("/firstgen-logo-transparent.png"),
   },
 };
 
