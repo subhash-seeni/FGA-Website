@@ -1,0 +1,287 @@
+/* Firstgen Assets Design System - Ultra-Modern Cinematic & Exaggerated Editorial */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Urbanist:wght@700;800;900&display=swap');
+
+:root {
+  /* Font Families */
+  --font-display: 'Urbanist', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: 'Space Grotesk', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* Surfaces */
+  --color-obsidian: #08090b;
+  --color-obsidian-surface: #101216;
+  --color-obsidian-card: #15181f;
+  --color-obsidian-border: rgba(255, 255, 255, 0.08);
+
+  --color-titanium: #eae6df;
+  --color-titanium-surface: #e2ddd4;
+  --color-warm-white: #faf9f6;
+  --color-white: #ffffff;
+
+  /* Typography Colors */
+  --color-ink-primary: #0a0b0d;
+  --color-ink-muted: #64676f;
+  --color-text-light: #ffffff;
+  --color-text-dim: #9496a1;
+
+  /* Firstgen Kinetic Copper Accent */
+  --color-copper: #f58220;
+  --color-copper-hover: #e07114;
+  --color-copper-glow: rgba(245, 130, 32, 0.2);
+
+  /* Division Signatures */
+  --color-fleet: #f58220;
+  --color-construction: #eab308;
+  --color-it: #38bdf8;
+
+  /* Fonts */
+  --font-heading: var(--font-display), -apple-system, sans-serif;
+  --font-technical: var(--font-mono), monospace;
+  --font-body: var(--font-sans), -apple-system, sans-serif;
+
+  /* Motion System Tokens (Lusion & Editorial Standards) */
+  --motion-micro: 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  --motion-reveal: 550ms cubic-bezier(0.16, 1, 0.3, 1);
+  --motion-transition: 850ms cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-editorial: cubic-bezier(0.19, 1, 0.22, 1);
+
+  /* Transitions */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-elastic: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-fluid: 0.35s var(--ease-out-expo);
+}
+
+/* Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: var(--font-body);
+  background-color: var(--color-titanium);
+  color: var(--color-ink-primary);
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Nav clearance anchor offsets */
+#hero,
+#asset-vault,
+#financial-equation,
+#velocity-line,
+#closing-monolith {
+  scroll-margin-top: 140px;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--color-titanium);
+  color: var(--color-ink-primary);
+  overflow-x: hidden;
+  position: relative;
+  line-height: 1.6;
+}
+
+/* Skip link */
+.skip-to-content {
+  position: absolute;
+  top: -60px;
+  left: 20px;
+  background-color: var(--color-obsidian);
+  color: #ffffff;
+  padding: 10px 18px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  z-index: 9999;
+  text-decoration: none;
+  border-radius: 9999px;
+  transition: top 0.2s ease;
+}
+
+.skip-to-content:focus {
+  top: 14px;
+  outline: 2px solid var(--color-copper);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-copper);
+  outline-offset: 3px;
+}
+
+/* Editorial Container */
+.cinematic-container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 4.5vw, 64px);
+}
+
+/* Editorial Datum Lines & Spatial Dividers (Pentagram / Ragged Edge) */
+.datum-line-light {
+  width: 100%;
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+.datum-line-dark {
+  width: 100%;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Micro-interactions & Image Scale */
+.img-editorial-scale {
+  transition: transform var(--motion-reveal);
+  will-change: transform;
+}
+
+.img-editorial-scale:hover {
+  transform: scale(1.03);
+}
+
+/* Exaggerated Typography */
+.font-display {
+  font-family: var(--font-heading);
+  letter-spacing: -0.04em;
+  line-height: 0.94;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.font-tech {
+  font-family: var(--font-technical);
+  letter-spacing: -0.02em;
+}
+
+.mono-tag {
+  font-family: var(--font-technical);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-copper);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mono-tag::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-copper);
+}
+
+/* Buttons & Interactive Pills */
+.btn-pill-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 28px;
+  background-color: var(--color-obsidian);
+  color: #ffffff;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  border: 1px solid var(--color-obsidian);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s var(--ease-out-expo);
+  white-space: nowrap;
+  touch-action: manipulation;
+}
+
+.btn-pill-primary:hover {
+  background-color: var(--color-copper);
+  border-color: var(--color-copper);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px var(--color-copper-glow);
+}
+
+.btn-pill-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 26px;
+  background-color: transparent;
+  color: var(--color-ink-primary);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  border: 1px solid rgba(0, 0, 0, 0.14);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s var(--ease-out-expo);
+  white-space: nowrap;
+  touch-action: manipulation;
+}
+
+.btn-pill-secondary:hover {
+  border-color: var(--color-obsidian);
+  background-color: rgba(0, 0, 0, 0.04);
+  transform: translateY(-2px);
+}
+
+/* 3D Tilt Card Container */
+.tilt-card-wrapper {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+/* Continuous Monospace Ticker */
+@keyframes kineticTicker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.kinetic-ticker-track {
+  display: flex;
+  width: max-content;
+  animation: kineticTicker 40s linear infinite;
+  will-change: transform;
+}
+
+.kinetic-ticker-track:hover {
+  animation-play-state: paused;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-obsidian);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #33363f;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-copper);
+}
+
+/* Reduced Motion Override */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .kinetic-ticker-track {
+    animation: none !important;
+  }
+}
