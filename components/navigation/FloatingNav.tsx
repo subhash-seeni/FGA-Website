@@ -132,22 +132,6 @@ export default function FloatingNav({ onOpenEnquiry }: FloatingNavProps) {
                 priority
               />
             </div>
-            <span
-              style={{
-                fontFamily: "var(--font-technical)",
-                fontSize: "0.62rem",
-                letterSpacing: "0.18em",
-                color: "var(--color-copper)",
-                fontWeight: 700,
-                textTransform: "uppercase",
-                padding: "2px 6px",
-                backgroundColor: "rgba(245, 130, 32, 0.14)",
-                borderRadius: "4px",
-              }}
-              className="desktop-only"
-            >
-              PVT LTD
-            </span>
           </Link>
 
           {/* Desktop Center Links with Active Section Indicator */}

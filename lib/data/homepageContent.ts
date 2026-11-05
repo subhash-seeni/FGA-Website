@@ -46,6 +46,27 @@ export interface FooterColumn {
   links: { label: string; href: string }[];
 }
 
+export interface HeroCardMetric {
+  prefix?: string;
+  value: string;
+  label: string;
+  highlight?: boolean;
+}
+
+export interface HeroCardVariant {
+  id: string;
+  categoryKey: string;
+  tabLabel: string;
+  badge: string;
+  indexTag: string;
+  flagshipTitle: string;
+  structureType: string;
+  metrics: HeroCardMetric[];
+  image: string;
+  alt: string;
+  accentColor: string;
+}
+
 export const navigationData = {
   brandName: "Firstgen Assets",
   tagline: "PRIVATE LIMITED",
@@ -135,6 +156,57 @@ export const heroData = {
     "APC UPS 40 KVA",
   ],
 };
+
+export const heroCardsData: HeroCardVariant[] = [
+  {
+    id: "luxury-fleet",
+    categoryKey: "luxury-fleet",
+    tabLabel: "01 FLEET",
+    badge: "ACTIVE VAULT · EXECUTIVE FLEET",
+    indexTag: "INDEX 2026",
+    flagshipTitle: "Rolls-Royce Ghost & Mercedes S-Class",
+    structureType: "OPEX LEASE",
+    metrics: [
+      { prefix: "₹", value: "0", label: "DOWN PAYMENT", highlight: true },
+      { value: "48H", label: "DELIVERY SLA", highlight: false },
+    ],
+    image: assetPath("/images/hero-luxury-fleet.jpg"),
+    alt: "Luxury Fleet and Executive Corporate Mobility",
+    accentColor: "var(--color-copper)",
+  },
+  {
+    id: "construction-warehouse",
+    categoryKey: "construction-warehouse",
+    tabLabel: "02 INDUSTRY",
+    badge: "ACTIVE VAULT · HEAVY INDUSTRY",
+    indexTag: "INDEX 2026",
+    flagshipTitle: "JCB 3CX & Heavy Logistics Fleet",
+    structureType: "INDUSTRIAL LEASE",
+    metrics: [
+      { prefix: "₹", value: "0", label: "DOWN PAYMENT", highlight: true },
+      { value: "100%", label: "TAX DEDUCTIBLE", highlight: false },
+    ],
+    image: assetPath("/images/hero-construction-warehouse.jpg"),
+    alt: "Heavy Construction and Warehouse Logistics Machinery",
+    accentColor: "#eab308",
+  },
+  {
+    id: "it-hardware",
+    categoryKey: "it-hardware",
+    tabLabel: "03 COMPUTE",
+    badge: "ACTIVE VAULT · ENTERPRISE TECH",
+    indexTag: "INDEX 2026",
+    flagshipTitle: "Dell PowerEdge & Apple M4 Fleet",
+    structureType: "REFRESH LEASE",
+    metrics: [
+      { prefix: "₹", value: "0", label: "DOWN PAYMENT", highlight: true },
+      { value: "ZERO", label: "CAPITAL LOCK", highlight: false },
+    ],
+    image: assetPath("/images/hero-it-hardware.jpg"),
+    alt: "Enterprise IT Hardware and Developer Workstations",
+    accentColor: "#38bdf8",
+  },
+];
 
 export const businessValueData = {
   sectionNum: "02 / CAPITAL EFFICIENCY",
