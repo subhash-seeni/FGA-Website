@@ -30,11 +30,18 @@ export default function LeaseEnquiryModal({
 
   useEffect(() => {
     if (!isOpen) return;
+
+    // Lock body scroll when modal is open
+    document.body.style.overflow = "hidden";
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", handleKeyDown);
+    };
   }, [isOpen, onClose]);
 
   if (!isOpen) return null;
@@ -75,19 +82,19 @@ export default function LeaseEnquiryModal({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        padding: "20px",
+        padding: "clamp(12px, 3vw, 24px)",
         animation: "modalBackdropFade 0.25s ease-out forwards",
       }}
       onClick={onClose}
     >
       <div
+        className="modal-content-card"
         style={{
           backgroundColor: "#0d0f14",
           border: "1px solid rgba(255, 255, 255, 0.12)",
           borderRadius: "28px",
           width: "100%",
           maxWidth: "620px",
-          padding: "clamp(32px, 5vw, 44px)",
           position: "relative",
           maxHeight: "90vh",
           overflowY: "auto",
@@ -115,10 +122,9 @@ export default function LeaseEnquiryModal({
         {/* Close Button */}
         <button
           onClick={onClose}
+          className="modal-close-btn"
           style={{
             position: "absolute",
-            top: "22px",
-            right: "22px",
             background: "rgba(255, 255, 255, 0.06)",
             border: "1px solid rgba(255, 255, 255, 0.12)",
             borderRadius: "50%",
@@ -216,7 +222,7 @@ export default function LeaseEnquiryModal({
                 >
                   Selected Asset Division
                 </label>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "10px" }}>
+                <div className="modal-categories-grid">
                   {categories.map((cat) => {
                     const isSelected =
                       selectedCategory === cat.id ||
@@ -228,8 +234,8 @@ export default function LeaseEnquiryModal({
                         type="button"
                         key={cat.id}
                         onClick={() => setSelectedCategory(cat.id)}
+                        className="modal-category-btn"
                         style={{
-                          padding: "12px 10px",
                           borderRadius: "14px",
                           border: isSelected
                             ? "1px solid var(--color-copper)"
@@ -238,14 +244,12 @@ export default function LeaseEnquiryModal({
                             ? "rgba(245, 130, 32, 0.16)"
                             : "rgba(255, 255, 255, 0.03)",
                           color: isSelected ? "#ffffff" : "rgba(255, 255, 255, 0.7)",
-                          fontSize: "0.82rem",
                           fontWeight: isSelected ? 700 : 500,
                           cursor: "pointer",
                           transition: "all 0.2s ease",
                           display: "flex",
                           flexDirection: "column",
                           alignItems: "center",
-                          gap: "6px",
                           boxShadow: isSelected ? "0 0 16px rgba(245, 130, 32, 0.25)" : "none",
                         }}
                       >
@@ -539,6 +543,24 @@ export default function LeaseEnquiryModal({
       </div>
 
       <style jsx>{`
+        .modal-content-card {
+          padding: clamp(32px, 5vw, 44px);
+        }
+        .modal-close-btn {
+          top: 22px;
+          right: 22px;
+        }
+        .modal-categories-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr 1fr;
+          gap: 10px;
+        }
+        .modal-category-btn {
+          padding: 12px 10px;
+          font-size: 0.82rem;
+          gap: 6px;
+        }
+
         @keyframes modalBackdropFade {
           from {
             opacity: 0;
@@ -578,10 +600,32 @@ export default function LeaseEnquiryModal({
           background-color: rgba(255, 255, 255, 0.07);
           box-shadow: 0 0 0 3px rgba(245, 130, 32, 0.2);
         }
+
         @media (max-width: 600px) {
+          .modal-content-card {
+            padding: 26px 18px !important;
+            border-radius: 20px !important;
+          }
+          .modal-close-btn {
+            top: 16px;
+            right: 16px;
+            width: 32px;
+            height: 32px;
+          }
           :global(.modal-form-grid) {
             grid-template-columns: 1fr !important;
             gap: 12px !important;
+          }
+        }
+
+        @media (max-width: 440px) {
+          .modal-content-card {
+            padding: 22px 14px !important;
+          }
+          .modal-category-btn {
+            padding: 8px 4px !important;
+            font-size: 0.72rem !important;
+            gap: 4px !important;
           }
         }
       `}</style>

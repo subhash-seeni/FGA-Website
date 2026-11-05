@@ -263,8 +263,8 @@ export default function AssetVaultSection({ onOpenEnquiry }: AssetVaultSectionPr
 
                 {/* Content Body */}
                 <div
+                  className="vault-card-body"
                   style={{
-                    padding: "24px 28px 28px 28px",
                     display: "flex",
                     flexDirection: "column",
                     flex: 1,
@@ -288,7 +288,7 @@ export default function AssetVaultSection({ onOpenEnquiry }: AssetVaultSectionPr
                     <h3
                       className="font-display"
                       style={{
-                        fontSize: "1.75rem",
+                        fontSize: "clamp(1.5rem, 2.2vw, 1.85rem)",
                         color: "#ffffff",
                         marginBottom: "12px",
                         letterSpacing: "-0.02em",
@@ -344,6 +344,8 @@ export default function AssetVaultSection({ onOpenEnquiry }: AssetVaultSectionPr
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "space-between",
+                      flexWrap: "wrap",
+                      gap: "12px",
                     }}
                   >
                     <div>
@@ -400,10 +402,22 @@ export default function AssetVaultSection({ onOpenEnquiry }: AssetVaultSectionPr
       </div>
 
       <style jsx>{`
-        @media (max-width: 960px) {
+        .vault-card-body {
+          padding: 24px 28px 28px 28px;
+        }
+
+        @media (max-width: 1060px) {
           :global(.vault-cards-grid) {
             grid-template-columns: 1fr !important;
             gap: 32px !important;
+            max-width: 680px;
+            margin: 0 auto;
+          }
+        }
+
+        @media (max-width: 640px) {
+          .vault-card-body {
+            padding: 20px 18px 22px 18px;
           }
         }
       `}</style>

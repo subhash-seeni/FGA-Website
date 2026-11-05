@@ -25,6 +25,23 @@ export default function FloatingNav({ onOpenEnquiry }: FloatingNavProps) {
     { label: "Credentials", href: "#closing-monolith" },
   ];
 
+  // Lock body scroll and handle Escape key when mobile menu is open
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+      const handleKey = (e: KeyboardEvent) => {
+        if (e.key === "Escape") setMobileOpen(false);
+      };
+      window.addEventListener("keydown", handleKey);
+      return () => {
+        document.body.style.overflow = "";
+        window.removeEventListener("keydown", handleKey);
+      };
+    } else {
+      document.body.style.overflow = "";
+    }
+  }, [mobileOpen]);
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 40);
@@ -81,25 +98,24 @@ export default function FloatingNav({ onOpenEnquiry }: FloatingNavProps) {
         ref={headerRef}
         style={{
           position: "fixed",
-          top: scrolled ? "16px" : "24px",
+          top: scrolled ? "12px" : "20px",
           left: 0,
           right: 0,
           zIndex: 100,
           display: "flex",
           justifyContent: "center",
-          padding: "0 16px",
+          padding: "0 clamp(10px, 3vw, 16px)",
           transition: "top 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
           pointerEvents: "none",
         }}
         id="floating-nav-header"
       >
         <div
+          className="nav-dock-pill"
           style={{
             pointerEvents: "auto",
             display: "flex",
             alignItems: "center",
-            gap: "28px",
-            padding: "8px 10px 8px 20px",
             backgroundColor: "rgba(10, 11, 14, 0.88)",
             backdropFilter: "blur(20px)",
             WebkitBackdropFilter: "blur(20px)",
@@ -119,15 +135,16 @@ export default function FloatingNav({ onOpenEnquiry }: FloatingNavProps) {
               alignItems: "center",
               gap: "10px",
               textDecoration: "none",
+              flexShrink: 0,
             }}
             aria-label="Firstgen Assets - Return to top"
           >
-            <div style={{ position: "relative", width: "115px", height: "30px", filter: "brightness(0) invert(1)" }}>
+            <div className="nav-logo-box" style={{ position: "relative", filter: "brightness(0) invert(1)" }}>
               <Image
                 src={assetPath("/firstgen-logo-transparent.png")}
                 alt="Firstgen Assets"
                 fill
-                sizes="115px"
+                sizes="(max-width: 440px) 96px, 115px"
                 style={{ objectFit: "contain", objectPosition: "left center" }}
                 priority
               />
@@ -196,23 +213,22 @@ export default function FloatingNav({ onOpenEnquiry }: FloatingNavProps) {
           </nav>
 
           {/* Action CTAs */}
-          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
             <button
               onClick={onOpenEnquiry}
+              className="nav-cta-btn"
               style={{
                 display: "inline-flex",
                 alignItems: "center",
-                gap: "8px",
-                padding: "9px 18px",
                 backgroundColor: "var(--color-copper)",
                 color: "#ffffff",
                 border: "none",
                 borderRadius: "9999px",
-                fontSize: "0.84rem",
                 fontWeight: 700,
                 cursor: "pointer",
                 transition: "all 0.2s cubic-bezier(0.16, 1, 0.3, 1)",
                 boxShadow: "0 4px 16px rgba(245, 130, 32, 0.35)",
+                whiteSpace: "nowrap",
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.backgroundColor = "var(--color-copper-hover)";
@@ -224,7 +240,8 @@ export default function FloatingNav({ onOpenEnquiry }: FloatingNavProps) {
               }}
               id="nav-begin-lease-pill"
             >
-              <span>Begin Lease</span>
+              <span className="nav-btn-text-full">Begin Lease</span>
+              <span className="nav-btn-text-short">Lease</span>
               <ArrowUpRight size={14} />
             </button>
 
@@ -337,12 +354,58 @@ export default function FloatingNav({ onOpenEnquiry }: FloatingNavProps) {
       )}
 
       <style jsx>{`
+        .nav-dock-pill {
+          padding: 8px 10px 8px 20px;
+          gap: 28px;
+        }
+        .nav-logo-box {
+          width: 115px;
+          height: 30px;
+        }
+        .nav-cta-btn {
+          padding: 9px 18px;
+          gap: 8px;
+          font-size: 0.84rem;
+        }
+        .nav-btn-text-short {
+          display: none;
+        }
+
         @media (max-width: 768px) {
           :global(.desktop-only) {
             display: none !important;
           }
           :global(.mobile-toggle) {
             display: flex !important;
+          }
+          .nav-dock-pill {
+            padding: 6px 8px 6px 14px;
+            gap: 12px;
+          }
+        }
+
+        @media (max-width: 440px) {
+          .nav-dock-pill {
+            padding: 6px 8px 6px 12px;
+            gap: 8px;
+          }
+          .nav-logo-box {
+            width: 96px;
+            height: 25px;
+          }
+          .nav-cta-btn {
+            padding: 7px 12px;
+            gap: 5px;
+            font-size: 0.78rem;
+          }
+        }
+
+        @media (max-width: 350px) {
+          .nav-btn-text-full {
+            display: none;
+          }
+          .nav-btn-text-short {
+            display: inline;
           }
         }
       `}</style>

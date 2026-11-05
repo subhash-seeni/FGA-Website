@@ -567,50 +567,6 @@ export default function InstitutionalInfrastructure({
             text-align: left !important;
           }
         }
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 16px;
-          }
-
-          .infra-panel-text-col {
-            flex: 1 1 100%;
-            max-width: 100%;
-          }
-
-          .infra-panel-divider {
-            display: none;
-          }
-
-          .infra-logos-row {
-            justify-content: flex-start;
-            gap: 20px;
-            flex-wrap: wrap;
-          }
-
-          .infra-tata-col {
-            justify-content: flex-start;
-          }
-
-          .infra-compliance-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 18px 12px;
-          }
-
-          .infra-item-divider {
-            display: none;
-          }
-
-          .infra-compliance-item {
-            align-items: flex-start;
-            padding: 8px 4px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-          }
-
-          .infra-compliance-desc {
-            text-align: left !important;
-          }
-        }
 
         @media (max-width: 480px) {
           .infra-arc-container {

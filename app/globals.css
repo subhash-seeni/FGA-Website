@@ -65,6 +65,8 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 /* Nav clearance anchor offsets */
@@ -81,6 +83,7 @@ body {
   background-color: var(--color-titanium);
   color: var(--color-ink-primary);
   overflow-x: hidden;
+  max-width: 100%;
   position: relative;
   line-height: 1.6;
 }
@@ -111,12 +114,14 @@ body {
   outline-offset: 3px;
 }
 
-/* Editorial Container */
-.cinematic-container {
+/* Editorial & Cinematic Containers */
+.cinematic-container,
+.editorial-container {
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 clamp(20px, 4.5vw, 64px);
+  padding: 0 clamp(16px, 4.5vw, 64px);
+  box-sizing: border-box;
 }
 
 /* Editorial Datum Lines & Spatial Dividers (Pentagram / Ragged Edge) */
@@ -230,6 +235,24 @@ body {
   border-color: var(--color-obsidian);
   background-color: rgba(0, 0, 0, 0.04);
   transform: translateY(-2px);
+}
+
+@media (max-width: 640px) {
+  .btn-pill-primary,
+  .btn-pill-secondary {
+    padding: 12px 20px;
+    font-size: 0.85rem;
+    white-space: normal;
+    text-align: center;
+  }
+}
+
+@media (max-width: 420px) {
+  .btn-pill-primary,
+  .btn-pill-secondary {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 /* 3D Tilt Card Container */

@@ -153,6 +153,7 @@ export default function ClosingMonolith({ onOpenEnquiry }: ClosingMonolithProps)
 
             {/* Dual Magnetic Action Buttons */}
             <div
+              className="monolith-actions-row"
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -163,12 +164,11 @@ export default function ClosingMonolith({ onOpenEnquiry }: ClosingMonolithProps)
             >
               <button
                 onClick={() => onOpenEnquiry("luxury-fleet")}
-                className="magnetic-btn"
+                className="magnetic-btn monolith-primary-btn"
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
                   gap: "10px",
-                  padding: "18px 38px",
                   backgroundColor: "var(--color-copper)",
                   color: "#ffffff",
                   border: "none",
@@ -190,12 +190,11 @@ export default function ClosingMonolith({ onOpenEnquiry }: ClosingMonolithProps)
 
               <a
                 href={`mailto:${footerData.email}`}
-                className="magnetic-btn"
+                className="magnetic-btn monolith-secondary-btn"
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
                   gap: "10px",
-                  padding: "18px 32px",
                   backgroundColor: "rgba(255, 255, 255, 0.05)",
                   color: "#ffffff",
                   border: "1px solid rgba(255, 255, 255, 0.15)",
@@ -214,6 +213,26 @@ export default function ClosingMonolith({ onOpenEnquiry }: ClosingMonolithProps)
             </div>
           </div>
         </div>
+
+        <style jsx>{`
+          .monolith-primary-btn {
+            padding: 18px 38px;
+          }
+          .monolith-secondary-btn {
+            padding: 18px 32px;
+          }
+
+          @media (max-width: 640px) {
+            .monolith-primary-btn,
+            .monolith-secondary-btn {
+              padding: 14px 24px !important;
+              font-size: 0.85rem !important;
+              width: 100%;
+              max-width: 320px;
+              justify-content: center;
+            }
+          }
+        `}</style>
       </section>
     </>
   );

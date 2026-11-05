@@ -213,7 +213,9 @@ export default function CinematicHero({ onOpenEnquiry }: CinematicHeroProps) {
             justifyContent: "space-between",
             paddingBottom: "16px",
             borderBottom: "1px solid rgba(0, 0, 0, 0.08)",
-            marginBottom: "40px",
+            marginBottom: "clamp(24px, 4vw, 40px)",
+            flexWrap: "wrap",
+            gap: "10px",
           }}
         >
           <div className="mono-tag">{heroData.locationTag}</div>
@@ -360,12 +362,12 @@ export default function CinematicHero({ onOpenEnquiry }: CinematicHeroProps) {
                   zIndex = 20;
                   opacity = 0.72;
                   filter = "brightness(0.85) contrast(0.95)";
-                  transformStyle = "translate3d(32px, -20px, -50px) scale(0.92) rotate(3deg)";
+                  transformStyle = "translate3d(var(--deck-mid-tx), var(--deck-mid-ty), var(--deck-mid-tz)) scale(0.92) rotate(var(--deck-mid-rot))";
                 } else if (isDeep) {
                   zIndex = 10;
                   opacity = 0.42;
                   filter = "brightness(0.7) blur(1.5px)";
-                  transformStyle = "translate3d(60px, -36px, -100px) scale(0.85) rotate(5.5deg)";
+                  transformStyle = "translate3d(var(--deck-deep-tx), var(--deck-deep-ty), var(--deck-deep-tz)) scale(0.85) rotate(var(--deck-deep-rot))";
                 }
 
                 return (
@@ -423,11 +425,9 @@ export default function CinematicHero({ onOpenEnquiry }: CinematicHeroProps) {
 
                       {/* Top Floating Badge Bar */}
                       <div
+                        className="hero-card-badge-bar"
                         style={{
                           position: "absolute",
-                          top: "20px",
-                          left: "20px",
-                          right: "20px",
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
@@ -470,12 +470,9 @@ export default function CinematicHero({ onOpenEnquiry }: CinematicHeroProps) {
 
                       {/* Bottom Floating Parameter HUD */}
                       <div
+                        className="hero-card-hud"
                         style={{
                           position: "absolute",
-                          bottom: "20px",
-                          left: "20px",
-                          right: "20px",
-                          padding: "18px 22px",
                           backgroundColor: "rgba(16, 18, 22, 0.85)",
                           backdropFilter: "blur(18px)",
                           border: `1px solid ${isFront ? "rgba(255, 255, 255, 0.16)" : "rgba(255, 255, 255, 0.08)"}`,
@@ -489,14 +486,15 @@ export default function CinematicHero({ onOpenEnquiry }: CinematicHeroProps) {
                             alignItems: "center",
                             justifyContent: "space-between",
                             borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
-                            paddingBottom: "12px",
-                            marginBottom: "12px",
+                            paddingBottom: "10px",
+                            marginBottom: "10px",
+                            gap: "12px",
                           }}
                         >
-                          <div>
+                          <div style={{ minWidth: 0 }}>
                             <div
                               style={{
-                                fontSize: "0.7rem",
+                                fontSize: "0.68rem",
                                 fontFamily: "var(--font-technical)",
                                 color: "rgba(255, 255, 255, 0.6)",
                                 textTransform: "uppercase",
@@ -507,20 +505,23 @@ export default function CinematicHero({ onOpenEnquiry }: CinematicHeroProps) {
                             </div>
                             <div
                               style={{
-                                fontSize: "1.08rem",
+                                fontSize: "clamp(0.92rem, 2.4vw, 1.08rem)",
                                 fontWeight: 700,
                                 color: "#ffffff",
                                 letterSpacing: "-0.02em",
+                                whiteSpace: "nowrap",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
                               }}
                             >
                               {card.flagshipTitle}
                             </div>
                           </div>
 
-                          <div style={{ textAlign: "right" }}>
+                          <div style={{ textAlign: "right", flexShrink: 0 }}>
                             <div
                               style={{
-                                fontSize: "0.7rem",
+                                fontSize: "0.68rem",
                                 fontFamily: "var(--font-technical)",
                                 color: card.accentColor,
                                 textTransform: "uppercase",
@@ -533,7 +534,7 @@ export default function CinematicHero({ onOpenEnquiry }: CinematicHeroProps) {
                             <div
                               style={{
                                 fontFamily: "var(--font-technical)",
-                                fontSize: "0.95rem",
+                                fontSize: "0.9rem",
                                 fontWeight: 700,
                                 color: "#ffffff",
                               }}
@@ -549,12 +550,14 @@ export default function CinematicHero({ onOpenEnquiry }: CinematicHeroProps) {
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "space-between",
-                            fontSize: "0.76rem",
+                            fontSize: "0.74rem",
                             color: "rgba(255, 255, 255, 0.72)",
                             fontFamily: "var(--font-technical)",
+                            gap: "8px",
+                            flexWrap: "wrap",
                           }}
                         >
-                          <div style={{ display: "flex", gap: "18px" }}>
+                          <div style={{ display: "flex", gap: "14px", flexWrap: "wrap" }}>
                             {card.metrics.map((metric, mIdx) => (
                               <div key={mIdx}>
                                 <span
@@ -585,7 +588,7 @@ export default function CinematicHero({ onOpenEnquiry }: CinematicHeroProps) {
                                 alignItems: "center",
                                 gap: "4px",
                                 cursor: "pointer",
-                                fontSize: "0.74rem",
+                                fontSize: "0.72rem",
                                 fontWeight: 600,
                                 fontFamily: "var(--font-technical)",
                                 padding: "2px 0",
@@ -605,46 +608,24 @@ export default function CinematicHero({ onOpenEnquiry }: CinematicHeroProps) {
             </div>
 
             {/* Micro Navigation Bar & Division Pills */}
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                marginTop: "24px",
-                gap: "12px",
-                flexWrap: "wrap",
-              }}
-            >
+            <div className="hero-deck-controls">
               {/* Division Tab Switcher */}
-              <div
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "6px",
-                  padding: "4px 6px",
-                  backgroundColor: "rgba(255, 255, 255, 0.6)",
-                  backdropFilter: "blur(12px)",
-                  borderRadius: "9999px",
-                  border: "1px solid rgba(0, 0, 0, 0.08)",
-                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.04)",
-                }}
-              >
+              <div className="hero-deck-tabs-dock">
                 {heroCardsData.map((card, idx) => {
                   const isActive = idx === activeIndex;
                   return (
                     <button
                       key={card.id}
                       onClick={() => handleSelectCard(idx)}
+                      className="hero-tab-pill-btn"
                       style={{
                         position: "relative",
                         overflow: "hidden",
-                        padding: "8px 16px",
                         borderRadius: "9999px",
                         border: "none",
                         backgroundColor: isActive ? "var(--color-obsidian)" : "transparent",
                         color: isActive ? "#ffffff" : "var(--color-ink-muted)",
                         fontFamily: "var(--font-technical)",
-                        fontSize: "0.74rem",
                         fontWeight: 700,
                         letterSpacing: "0.08em",
                         cursor: "pointer",
@@ -663,6 +644,7 @@ export default function CinematicHero({ onOpenEnquiry }: CinematicHeroProps) {
                           borderRadius: "50%",
                           backgroundColor: isActive ? card.accentColor : "rgba(0,0,0,0.2)",
                           transition: "background-color 0.25s ease",
+                          flexShrink: 0,
                         }}
                       />
                       <span>{card.tabLabel}</span>
@@ -738,6 +720,57 @@ export default function CinematicHero({ onOpenEnquiry }: CinematicHeroProps) {
       </div>
 
       <style jsx>{`
+        .deck-perspective-container {
+          --deck-mid-tx: 30px;
+          --deck-mid-ty: -18px;
+          --deck-mid-tz: -50px;
+          --deck-mid-rot: 3deg;
+          --deck-deep-tx: 56px;
+          --deck-deep-ty: -34px;
+          --deck-deep-tz: -100px;
+          --deck-deep-rot: 5.5deg;
+          height: 470px;
+        }
+
+        .hero-card-badge-bar {
+          top: 20px;
+          left: 20px;
+          right: 20px;
+        }
+
+        .hero-card-hud {
+          bottom: 20px;
+          left: 20px;
+          right: 20px;
+          padding: 18px 22px;
+        }
+
+        .hero-deck-controls {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-top: 24px;
+          gap: 12px;
+          flex-wrap: wrap;
+        }
+
+        .hero-deck-tabs-dock {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 4px 6px;
+          background-color: rgba(255, 255, 255, 0.6);
+          backdrop-filter: blur(12px);
+          border-radius: 9999px;
+          border: 1px solid rgba(0, 0, 0, 0.08);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+        }
+
+        .hero-tab-pill-btn {
+          padding: 8px 16px;
+          font-size: 0.74rem;
+        }
+
         .hero-arrow-btn:hover {
           background-color: var(--color-obsidian) !important;
           color: #ffffff !important;
@@ -753,7 +786,7 @@ export default function CinematicHero({ onOpenEnquiry }: CinematicHeroProps) {
         @media (max-width: 900px) {
           :global(.hero-grid) {
             grid-template-columns: 1fr !important;
-            gap: 48px !important;
+            gap: 40px !important;
           }
           .hero-deck-stage {
             max-width: 100% !important;
@@ -762,7 +795,68 @@ export default function CinematicHero({ onOpenEnquiry }: CinematicHeroProps) {
 
         @media (max-width: 640px) {
           .deck-perspective-container {
-            height: 440px !important;
+            --deck-mid-tx: 14px;
+            --deck-mid-ty: -10px;
+            --deck-mid-tz: -35px;
+            --deck-mid-rot: 2deg;
+            --deck-deep-tx: 26px;
+            --deck-deep-ty: -18px;
+            --deck-deep-tz: -70px;
+            --deck-deep-rot: 3.5deg;
+            height: 410px !important;
+          }
+
+          .hero-card-badge-bar {
+            top: 14px;
+            left: 14px;
+            right: 14px;
+          }
+
+          .hero-card-hud {
+            bottom: 12px;
+            left: 12px;
+            right: 12px;
+            padding: 12px 14px;
+            border-radius: 14px;
+          }
+
+          .hero-deck-controls {
+            margin-top: 18px;
+          }
+
+          .hero-tab-pill-btn {
+            padding: 7px 12px;
+            font-size: 0.7rem;
+          }
+        }
+
+        @media (max-width: 440px) {
+          .deck-perspective-container {
+            --deck-mid-tx: 10px;
+            --deck-mid-ty: -8px;
+            --deck-mid-tz: -25px;
+            --deck-mid-rot: 1.5deg;
+            --deck-deep-tx: 18px;
+            --deck-deep-ty: -14px;
+            --deck-deep-tz: -50px;
+            --deck-deep-rot: 2.5deg;
+            height: 380px !important;
+          }
+
+          .hero-deck-controls {
+            justify-content: center;
+          }
+
+          .hero-deck-tabs-dock {
+            width: 100%;
+            justify-content: space-between;
+          }
+
+          .hero-tab-pill-btn {
+            padding: 6px 10px;
+            font-size: 0.67rem;
+            flex: 1;
+            justify-content: center;
           }
         }
       `}</style>

@@ -135,15 +135,16 @@ export default function FinancialEquationSection() {
           {/* Left: Interactive Economic Comparison HUD */}
           <div
             ref={leftPanelRef}
+            className="equation-panel-left"
             style={{
               backgroundColor: "var(--color-obsidian-surface)",
               border: "1px solid var(--color-obsidian-border)",
               borderRadius: "24px",
-              padding: "clamp(28px, 4vw, 44px)",
             }}
           >
             {/* Interactive Mode Toggle */}
             <div
+              className="equation-mode-toggle"
               style={{
                 display: "inline-flex",
                 padding: "4px",
@@ -151,10 +152,13 @@ export default function FinancialEquationSection() {
                 borderRadius: "9999px",
                 marginBottom: "36px",
                 border: "1px solid rgba(255, 255, 255, 0.1)",
+                maxWidth: "100%",
+                boxSizing: "border-box",
               }}
             >
               <button
                 onClick={() => setMode("lease")}
+                className="equation-toggle-btn"
                 style={{
                   padding: "8px 20px",
                   borderRadius: "9999px",
@@ -165,12 +169,14 @@ export default function FinancialEquationSection() {
                   fontWeight: 600,
                   cursor: "pointer",
                   transition: "all 0.2s ease",
+                  whiteSpace: "nowrap",
                 }}
               >
                 Firstgen Operating Lease
               </button>
               <button
                 onClick={() => setMode("purchase")}
+                className="equation-toggle-btn"
                 style={{
                   padding: "8px 20px",
                   borderRadius: "9999px",
@@ -181,6 +187,7 @@ export default function FinancialEquationSection() {
                   fontWeight: 600,
                   cursor: "pointer",
                   transition: "all 0.2s ease",
+                  whiteSpace: "nowrap",
                 }}
               >
                 Traditional Outright Purchase
@@ -320,8 +327,8 @@ export default function FinancialEquationSection() {
           {/* Right: Solitary Founder's Conviction Card */}
           <div
             ref={rightPanelRef}
+            className="equation-panel-right"
             style={{
-              padding: "clamp(36px, 5vw, 56px)",
               borderRadius: "24px",
               backgroundColor: "rgba(255, 255, 255, 0.03)",
               border: "1px solid rgba(255, 255, 255, 0.08)",
@@ -394,6 +401,14 @@ export default function FinancialEquationSection() {
       </div>
 
       <style jsx>{`
+        .equation-panel-left {
+          padding: clamp(28px, 4vw, 44px);
+        }
+
+        .equation-panel-right {
+          padding: clamp(36px, 5vw, 56px);
+        }
+
         @media (max-width: 900px) {
           :global(.equation-grid) {
             grid-template-columns: 1fr !important;
@@ -402,6 +417,31 @@ export default function FinancialEquationSection() {
           :global(.equation-numbers-grid) {
             grid-template-columns: 1fr !important;
             gap: 20px !important;
+          }
+          .equation-panel-left {
+            padding: 24px 20px !important;
+          }
+          .equation-panel-right {
+            padding: 28px 20px !important;
+          }
+        }
+
+        @media (max-width: 540px) {
+          .equation-mode-toggle {
+            width: 100% !important;
+            border-radius: 16px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 4px;
+            margin-bottom: 24px !important;
+          }
+          .equation-toggle-btn {
+            width: 100% !important;
+            text-align: center !important;
+            padding: 10px 14px !important;
+            border-radius: 12px !important;
+            font-size: 0.8rem !important;
+            white-space: normal !important;
           }
         }
       `}</style>

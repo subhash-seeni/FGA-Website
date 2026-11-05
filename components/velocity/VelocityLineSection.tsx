@@ -627,13 +627,46 @@ export default function VelocityLineSection({ onOpenEnquiry }: VelocityLineSecti
         }
         @media (max-width: 640px) {
           .velocity-tabs-grid {
-            grid-template-columns: 1fr;
-            gap: 8px;
+            display: flex !important;
+            overflow-x: auto !important;
+            scroll-snap-type: x mandatory;
+            gap: 10px !important;
+            padding-bottom: 6px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+          }
+          .velocity-tabs-grid::-webkit-scrollbar {
+            display: none;
           }
           .velocity-tab-node {
-            height: 60px;
-            min-height: 60px;
-            max-height: 60px;
+            flex: 0 0 165px !important;
+            scroll-snap-align: start;
+            height: 68px !important;
+            min-height: 68px !important;
+            max-height: 68px !important;
+            padding: 10px 12px !important;
+          }
+          .velocity-actions-row {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 12px;
+          }
+          .velocity-actions-row :global(.btn-pill-primary) {
+            width: 100%;
+            justify-content: center;
+          }
+        }
+        @media (max-width: 440px) {
+          .velocity-tab-node {
+            flex: 0 0 145px !important;
+          }
+          .velocity-inspector-card {
+            padding: 16px 14px;
+            border-radius: 16px;
+          }
+          .velocity-right-column {
+            padding: 16px 14px;
+            border-radius: 14px;
           }
         }
       `}</style>
