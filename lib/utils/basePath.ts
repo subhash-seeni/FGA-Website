@@ -17,5 +17,8 @@ export function assetPath(path: string): string {
     return path;
   }
   const cleanPath = path.startsWith("/") ? path : `/${path}`;
+  if (basePath && (cleanPath === basePath || cleanPath.startsWith(`${basePath}/`))) {
+    return cleanPath;
+  }
   return `${basePath}${cleanPath}`;
 }

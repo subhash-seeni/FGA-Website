@@ -20,8 +20,6 @@ const stepGuarantees: Record<number, string> = {
 
 export default function VelocityLineSection({ onOpenEnquiry }: VelocityLineSectionProps) {
   const [activeStep, setActiveStep] = useState(0);
-  const [scrollProgress, setScrollProgress] = useState(0.2);
-  const [isManual, setIsManual] = useState(false);
 
   const sectionRef = useRef<HTMLElement>(null);
   const inspectorCardRef = useRef<HTMLDivElement>(null);
@@ -49,7 +47,7 @@ export default function VelocityLineSection({ onOpenEnquiry }: VelocityLineSecti
             duration: 0.6,
             stagger: 0.1,
             ease: "power2.out",
-            clearProps: "all",
+            clearProps: "transform,opacity",
             scrollTrigger: {
               trigger: sectionRef.current,
               start: "top 80%",
@@ -59,7 +57,7 @@ export default function VelocityLineSection({ onOpenEnquiry }: VelocityLineSecti
         );
       }, sectionRef);
 
-      // 2. Interactive Scroll Scrubbing: syncs progress bar and active step with natural scroll
+      // 2. Interactive Scroll Scrubbing: syncs active step with natural scroll
       const scrubTrigger = ScrollTrigger.create({
         trigger: sectionRef.current,
         start: "top 65%",
@@ -68,7 +66,6 @@ export default function VelocityLineSection({ onOpenEnquiry }: VelocityLineSecti
         onUpdate: (self) => {
           if (!isManualRef.current) {
             const p = self.progress;
-            setScrollProgress(p);
             const calculatedStep = Math.min(
               processStepsData.length - 1,
               Math.floor(p * processStepsData.length)
@@ -92,7 +89,7 @@ export default function VelocityLineSection({ onOpenEnquiry }: VelocityLineSecti
     }
   }, []);
 
-  // GSAP: Micro-reveal transition when active step changes
+  // GSAP: Micro-reveal transition when active step changes (only touches transform & opacity)
   useEffect(() => {
     if (typeof window === "undefined" || !inspectorCardRef.current) return;
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -100,22 +97,19 @@ export default function VelocityLineSection({ onOpenEnquiry }: VelocityLineSecti
 
     gsap.fromTo(
       inspectorCardRef.current.querySelectorAll(".inspector-anim-item"),
-      { opacity: 0, y: 12 },
-      { opacity: 1, y: 0, duration: 0.35, stagger: 0.04, ease: "power2.out", clearProps: "all" }
+      { opacity: 0, y: 10 },
+      { opacity: 1, y: 0, duration: 0.35, stagger: 0.04, ease: "power2.out", clearProps: "transform,opacity" }
     );
   }, [activeStep]);
 
   // Handle manual tab click with smooth override lock
   const handleStepClick = (idx: number) => {
     isManualRef.current = true;
-    setIsManual(true);
     setActiveStep(idx);
-    setScrollProgress((idx + 0.5) / processStepsData.length);
 
     if (manualTimeoutRef.current) clearTimeout(manualTimeoutRef.current);
     manualTimeoutRef.current = setTimeout(() => {
       isManualRef.current = false;
-      setIsManual(false);
     }, 2500);
   };
 
@@ -123,18 +117,11 @@ export default function VelocityLineSection({ onOpenEnquiry }: VelocityLineSecti
     <section
       ref={sectionRef}
       id="velocity-line"
-      style={{
-        padding: "clamp(130px, 15vw, 180px) 0 clamp(100px, 11vw, 140px) 0",
-        backgroundColor: "var(--color-titanium)",
-        position: "relative",
-      }}
+      className="velocity-section"
     >
       <div className="cinematic-container">
-        {/* Section Header: Unified editorial block with disciplined spacing */}
-        <div
-          className="velocity-entrance-node"
-          style={{ maxWidth: "820px", marginBottom: "48px" }}
-        >
+        {/* Section Header */}
+        <div className="velocity-header velocity-entrance-node">
           <div className="mono-tag" style={{ marginBottom: "14px" }}>
             03 / ONBOARDING SPEED
           </div>
@@ -168,7 +155,6 @@ export default function VelocityLineSection({ onOpenEnquiry }: VelocityLineSecti
           role="tablist"
           aria-label="Lease Application Velocity Steps"
           className="velocity-tabs-grid velocity-entrance-node"
-          style={{ marginBottom: "20px" }}
         >
           {processStepsData.map((s, idx) => {
             const isActive = activeStep === idx;
@@ -181,100 +167,71 @@ export default function VelocityLineSection({ onOpenEnquiry }: VelocityLineSecti
                 aria-controls={`velocity-panel-${s.number}`}
                 onClick={() => handleStepClick(idx)}
                 className={`velocity-tab-node ${isActive ? "active" : ""}`}
-                style={{
-                  position: "relative",
-                  padding: "20px 20px 18px",
-                  backgroundColor: isActive ? "var(--color-obsidian)" : "#ffffff",
-                  color: isActive ? "#ffffff" : "var(--color-ink-primary)",
-                  border: isActive
-                    ? "1px solid var(--color-obsidian)"
-                    : "1px solid rgba(0, 0, 0, 0.08)",
-                  borderRadius: "18px",
-                  textAlign: "left",
-                  cursor: "pointer",
-                  transition: "all 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "10px",
-                  boxShadow: isActive
-                    ? "0 18px 36px -8px rgba(8, 9, 11, 0.28)"
-                    : "0 4px 12px rgba(0, 0, 0, 0.02)",
-                  transform: isActive ? "translateY(-3px)" : "none",
-                }}
               >
                 {/* Active Top Accent Indicator Bar */}
-                {isActive && (
+                {isActive && <div className="velocity-tab-accent" />}
+
+                <div>
+                  {/* Header row: Step number and SLA Timeline pill */}
                   <div
                     style={{
-                      position: "absolute",
-                      top: 0,
-                      left: "20px",
-                      right: "20px",
-                      height: "3px",
-                      backgroundColor: "var(--color-copper)",
-                      borderRadius: "0 0 4px 4px",
-                      boxShadow: "0 0 10px rgba(245, 130, 32, 0.7)",
-                    }}
-                  />
-                )}
-
-                {/* Header row: Step number and SLA Timeline pill */}
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <span
-                    style={{
-                      fontFamily: "var(--font-technical)",
-                      fontSize: "1.15rem",
-                      fontWeight: 800,
-                      color: isActive ? "var(--color-copper)" : "var(--color-ink-muted)",
-                      letterSpacing: "-0.02em",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      marginBottom: "12px",
                     }}
                   >
-                    {s.number}
-                  </span>
-                  <span
+                    <span
+                      style={{
+                        fontFamily: "var(--font-technical)",
+                        fontSize: "1.15rem",
+                        fontWeight: 800,
+                        color: isActive ? "var(--color-copper)" : "var(--color-ink-muted)",
+                        letterSpacing: "-0.02em",
+                      }}
+                    >
+                      {s.number}
+                    </span>
+                    <span
+                      style={{
+                        fontFamily: "var(--font-technical)",
+                        fontSize: "0.68rem",
+                        padding: "3px 9px",
+                        borderRadius: "9999px",
+                        backgroundColor: isActive
+                          ? "rgba(245, 130, 32, 0.22)"
+                          : "rgba(0, 0, 0, 0.05)",
+                        color: isActive ? "var(--color-copper)" : "var(--color-ink-muted)",
+                        fontWeight: 700,
+                        letterSpacing: "0.06em",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      {s.timeline}
+                    </span>
+                  </div>
+
+                  {/* Title */}
+                  <div
                     style={{
-                      fontFamily: "var(--font-technical)",
-                      fontSize: "0.68rem",
-                      padding: "3px 9px",
-                      borderRadius: "9999px",
-                      backgroundColor: isActive
-                        ? "rgba(245, 130, 32, 0.22)"
-                        : "rgba(0, 0, 0, 0.05)",
-                      color: isActive ? "var(--color-copper)" : "var(--color-ink-muted)",
+                      fontSize: "0.95rem",
                       fontWeight: 700,
-                      letterSpacing: "0.06em",
-                      textTransform: "uppercase",
+                      letterSpacing: "-0.01em",
+                      lineHeight: 1.25,
+                      color: isActive ? "#ffffff" : "var(--color-ink-primary)",
+                      marginBottom: "8px",
                     }}
                   >
-                    {s.timeline}
-                  </span>
-                </div>
-
-                {/* Title */}
-                <div
-                  style={{
-                    fontSize: "0.95rem",
-                    fontWeight: 700,
-                    letterSpacing: "-0.01em",
-                    lineHeight: 1.25,
-                    color: isActive ? "#ffffff" : "var(--color-ink-primary)",
-                  }}
-                >
-                  {s.title}
+                    {s.title}
+                  </div>
                 </div>
 
                 {/* Micro summary */}
                 <div
                   style={{
                     fontSize: "0.76rem",
-                    color: isActive ? "rgba(255, 255, 255, 0.65)" : "var(--color-ink-muted)",
-                    lineHeight: 1.35,
+                    color: isActive ? "rgba(255, 255, 255, 0.72)" : "var(--color-ink-muted)",
+                    lineHeight: 1.4,
                     display: "-webkit-box",
                     WebkitLineClamp: 2,
                     WebkitBoxOrient: "vertical",
@@ -288,26 +245,12 @@ export default function VelocityLineSection({ onOpenEnquiry }: VelocityLineSecti
           })}
         </div>
 
-        {/* Dynamic Scrubbed Progress Horizon Bar (Scrubbed with scroll & clicks) */}
-        <div
-          className="velocity-entrance-node"
-          style={{
-            position: "relative",
-            height: "4px",
-            backgroundColor: "rgba(0, 0, 0, 0.08)",
-            borderRadius: "9999px",
-            overflow: "hidden",
-            marginBottom: "40px",
-          }}
-        >
+        {/* Dynamic Scrubbed Progress Horizon Bar (Smoothly synced with active step) */}
+        <div className="velocity-progress-track velocity-entrance-node">
           <div
+            className="velocity-progress-fill"
             style={{
-              height: "100%",
-              width: `${Math.max(10, Math.min(100, scrollProgress * 100))}%`,
-              backgroundColor: "var(--color-copper)",
-              borderRadius: "9999px",
-              boxShadow: "0 0 14px rgba(245, 130, 32, 0.85)",
-              transition: isManual ? "width 0.35s cubic-bezier(0.16, 1, 0.3, 1)" : "none",
+              width: `${((activeStep + 1) / processStepsData.length) * 100}%`,
             }}
           />
         </div>
@@ -318,26 +261,17 @@ export default function VelocityLineSection({ onOpenEnquiry }: VelocityLineSecti
           id={`velocity-panel-${step.number}`}
           role="tabpanel"
           aria-labelledby={`velocity-tab-${step.number}`}
-          style={{
-            backgroundColor: "#ffffff",
-            borderRadius: "24px",
-            border: "1px solid rgba(0, 0, 0, 0.08)",
-            padding: "clamp(36px, 5vw, 56px)",
-            boxShadow: "0 24px 60px -15px rgba(0, 0, 0, 0.08)",
-          }}
-          className="velocity-inspector-grid velocity-entrance-node"
+          className="velocity-inspector-card velocity-entrance-node"
         >
           {/* Left Column: Operational Dossier */}
-          <div
-            style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}
-          >
+          <div className="velocity-left-column">
             <div>
               <div
                 className="inspector-anim-item"
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
-                  gap: "8px",
+                  gap: "10px",
                   fontFamily: "var(--font-technical)",
                   fontSize: "0.74rem",
                   letterSpacing: "0.14em",
@@ -348,17 +282,17 @@ export default function VelocityLineSection({ onOpenEnquiry }: VelocityLineSecti
                 }}
               >
                 <span>MILESTONE {step.number} OF 05</span>
-                <span>·</span>
-                <span>ESTIMATED SLA {step.timeline}</span>
+                <span style={{ opacity: 0.4 }}>•</span>
+                <span>ESTIMATED SLA: {step.timeline}</span>
               </div>
 
               <h3
                 className="font-display inspector-anim-item"
                 style={{
-                  fontSize: "clamp(2rem, 3.5vw, 2.8rem)",
+                  fontSize: "clamp(2rem, 3.2vw, 2.75rem)",
                   color: "var(--color-obsidian)",
-                  marginBottom: "16px",
-                  letterSpacing: "-0.02em",
+                  marginBottom: "14px",
+                  letterSpacing: "-0.025em",
                   lineHeight: 1.12,
                 }}
               >
@@ -368,10 +302,10 @@ export default function VelocityLineSection({ onOpenEnquiry }: VelocityLineSecti
               <p
                 className="inspector-anim-item"
                 style={{
-                  fontSize: "1.05rem",
+                  fontSize: "1.02rem",
                   color: "var(--color-ink-muted)",
                   lineHeight: 1.65,
-                  marginBottom: "20px",
+                  marginBottom: "22px",
                   maxWidth: "580px",
                 }}
               >
@@ -379,27 +313,14 @@ export default function VelocityLineSection({ onOpenEnquiry }: VelocityLineSecti
               </p>
 
               {/* Enterprise SLA Guarantee Badge */}
-              <div
-                className="inspector-anim-item"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "10px",
-                  padding: "10px 16px",
-                  backgroundColor: "rgba(245, 130, 32, 0.08)",
-                  border: "1px solid rgba(245, 130, 32, 0.2)",
-                  borderRadius: "12px",
-                  marginBottom: "32px",
-                  maxWidth: "580px",
-                }}
-              >
-                <Sparkles size={16} style={{ color: "var(--color-copper)", flexShrink: 0 }} />
+              <div className="velocity-sla-badge inspector-anim-item">
+                <Sparkles size={18} style={{ color: "var(--color-copper)", flexShrink: 0, marginTop: "2px" }} />
                 <span
                   style={{
-                    fontSize: "0.84rem",
+                    fontSize: "0.86rem",
                     color: "var(--color-ink-primary)",
                     fontWeight: 600,
-                    lineHeight: 1.4,
+                    lineHeight: 1.5,
                   }}
                 >
                   {stepGuarantees[activeStep]}
@@ -408,15 +329,7 @@ export default function VelocityLineSection({ onOpenEnquiry }: VelocityLineSecti
             </div>
 
             {/* Actions: Primary CTA and Step Navigators */}
-            <div
-              className="inspector-anim-item"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                flexWrap: "wrap",
-                gap: "14px",
-              }}
-            >
+            <div className="velocity-actions-row inspector-anim-item">
               <button
                 onClick={onOpenEnquiry}
                 className="btn-pill-primary"
@@ -427,27 +340,18 @@ export default function VelocityLineSection({ onOpenEnquiry }: VelocityLineSecti
               </button>
 
               {/* Sequential Step Switcher */}
-              <div style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}>
                 <button
                   onClick={() => handleStepClick(Math.max(0, activeStep - 1))}
                   disabled={activeStep === 0}
                   aria-label="Previous Phase"
+                  className="velocity-nav-btn"
                   style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "6px",
-                    padding: "12px 18px",
-                    backgroundColor: "transparent",
-                    color: activeStep === 0 ? "rgba(0, 0, 0, 0.25)" : "var(--color-ink-primary)",
-                    border: "1px solid rgba(0, 0, 0, 0.12)",
-                    borderRadius: "9999px",
-                    fontSize: "0.84rem",
-                    fontWeight: 600,
                     cursor: activeStep === 0 ? "not-allowed" : "pointer",
-                    transition: "all 0.2s ease",
+                    color: activeStep === 0 ? "rgba(0, 0, 0, 0.25)" : "var(--color-ink-primary)",
                   }}
                 >
-                  <ChevronLeft size={15} />
+                  <ChevronLeft size={16} />
                   <span>Previous</span>
                 </button>
 
@@ -457,44 +361,24 @@ export default function VelocityLineSection({ onOpenEnquiry }: VelocityLineSecti
                   }
                   disabled={activeStep === processStepsData.length - 1}
                   aria-label="Next Phase"
+                  className="velocity-nav-btn"
                   style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "6px",
-                    padding: "12px 18px",
-                    backgroundColor: "transparent",
+                    cursor: activeStep === processStepsData.length - 1 ? "not-allowed" : "pointer",
                     color:
                       activeStep === processStepsData.length - 1
                         ? "rgba(0, 0, 0, 0.25)"
                         : "var(--color-ink-primary)",
-                    border: "1px solid rgba(0, 0, 0, 0.12)",
-                    borderRadius: "9999px",
-                    fontSize: "0.84rem",
-                    fontWeight: 600,
-                    cursor:
-                      activeStep === processStepsData.length - 1 ? "not-allowed" : "pointer",
-                    transition: "all 0.2s ease",
                   }}
                 >
                   <span>Next Phase</span>
-                  <ChevronRight size={15} />
+                  <ChevronRight size={16} />
                 </button>
               </div>
             </div>
           </div>
 
           {/* Right Column: Pre-requisites & Statutory Compliance */}
-          <div
-            style={{
-              backgroundColor: "#F4F2EE",
-              borderRadius: "20px",
-              padding: "32px",
-              border: "1px solid rgba(0, 0, 0, 0.06)",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-            }}
-          >
+          <div className="velocity-right-column">
             <div>
               <div
                 className="inspector-anim-item"
@@ -505,7 +389,7 @@ export default function VelocityLineSection({ onOpenEnquiry }: VelocityLineSecti
                   color: "var(--color-ink-primary)",
                   fontWeight: 700,
                   textTransform: "uppercase",
-                  marginBottom: "20px",
+                  marginBottom: "22px",
                   display: "flex",
                   alignItems: "center",
                   gap: "8px",
@@ -513,10 +397,11 @@ export default function VelocityLineSection({ onOpenEnquiry }: VelocityLineSecti
               >
                 <span
                   style={{
-                    width: "6px",
-                    height: "6px",
+                    width: "7px",
+                    height: "7px",
                     borderRadius: "50%",
                     backgroundColor: "var(--color-copper)",
+                    boxShadow: "0 0 8px rgba(245, 130, 32, 0.6)",
                   }}
                 />
                 <span>DIGITAL PRE-REQUISITES & VERIFICATION</span>
@@ -534,7 +419,7 @@ export default function VelocityLineSection({ onOpenEnquiry }: VelocityLineSecti
                       fontSize: "0.9rem",
                       color: "var(--color-ink-primary)",
                       fontWeight: 600,
-                      lineHeight: 1.4,
+                      lineHeight: 1.45,
                     }}
                   >
                     <CheckCircle2
@@ -550,13 +435,13 @@ export default function VelocityLineSection({ onOpenEnquiry }: VelocityLineSecti
             <div
               className="inspector-anim-item"
               style={{
-                marginTop: "28px",
-                paddingTop: "18px",
+                marginTop: "32px",
+                paddingTop: "20px",
                 borderTop: "1px solid rgba(0, 0, 0, 0.08)",
-                fontSize: "0.76rem",
+                fontSize: "0.78rem",
                 color: "var(--color-ink-muted)",
                 fontFamily: "var(--font-technical)",
-                lineHeight: 1.5,
+                lineHeight: 1.55,
               }}
             >
               Instant DigiLocker e-KYC integration eliminates physical paperwork and branch
@@ -567,18 +452,163 @@ export default function VelocityLineSection({ onOpenEnquiry }: VelocityLineSecti
       </div>
 
       <style>{`
+        .velocity-section {
+          scroll-margin-top: 140px;
+          padding: 110px 0;
+          background-color: var(--color-titanium);
+          position: relative;
+        }
+
+        .velocity-header {
+          max-width: 820px;
+          margin-bottom: 48px;
+        }
+
+        /* 5-Step Grid & Uniform Cards */
         .velocity-tabs-grid {
           display: grid;
           grid-template-columns: repeat(5, minmax(0, 1fr));
           gap: 14px;
           width: 100%;
-        }
-        .velocity-inspector-grid {
-          display: grid;
-          grid-template-columns: 1.2fr 0.8fr;
-          gap: 48px;
           align-items: stretch;
         }
+
+        .velocity-tab-node {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          align-self: stretch;
+          padding: 22px 20px 20px;
+          background-color: #ffffff;
+          color: var(--color-ink-primary);
+          border: 1px solid rgba(0, 0, 0, 0.08);
+          border-radius: 18px;
+          text-align: left;
+          cursor: pointer;
+          display: flex;
+          flex-direction: column;
+          justifyContent: space-between;
+          min-height: 160px;
+          box-sizing: border-box;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+          overflow: hidden;
+          transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .velocity-tab-node:hover {
+          border-color: rgba(0, 0, 0, 0.22);
+        }
+
+        .velocity-tab-node.active {
+          background-color: var(--color-obsidian);
+          color: #ffffff;
+          border: 1px solid var(--color-obsidian);
+          box-shadow: 0 14px 32px -6px rgba(8, 9, 11, 0.28), 0 0 0 1px rgba(245, 130, 32, 0.35);
+        }
+
+        .velocity-tab-node.active:hover {
+          border-color: var(--color-obsidian);
+        }
+
+        .velocity-tab-accent {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 3px;
+          background-color: var(--color-copper);
+          border-radius: 18px 18px 0 0;
+          box-shadow: 0 0 10px rgba(245, 130, 32, 0.7);
+        }
+
+        /* Progress Horizon Bar */
+        .velocity-progress-track {
+          position: relative;
+          height: 4px;
+          background-color: rgba(0, 0, 0, 0.08);
+          border-radius: 9999px;
+          overflow: hidden;
+          margin: 24px 0 36px 0;
+          width: 100%;
+        }
+
+        .velocity-progress-fill {
+          height: 100%;
+          background-color: var(--color-copper);
+          border-radius: 9999px;
+          box-shadow: 0 0 12px rgba(245, 130, 32, 0.8);
+          transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Dossier Inspector Card */
+        .velocity-inspector-card {
+          background-color: #ffffff;
+          border-radius: 24px;
+          border: 1px solid rgba(0, 0, 0, 0.08);
+          padding: clamp(32px, 4.5vw, 48px);
+          box-shadow: 0 20px 48px -12px rgba(0, 0, 0, 0.08);
+          display: grid;
+          grid-template-columns: 1.25fr 0.9fr;
+          gap: 48px;
+          align-items: stretch;
+          box-sizing: border-box;
+          width: 100%;
+        }
+
+        .velocity-left-column {
+          display: flex;
+          flex-direction: column;
+          justifyContent: space-between;
+          height: 100%;
+        }
+
+        .velocity-sla-badge {
+          display: flex;
+          align-items: flex-start;
+          gap: 12px;
+          padding: 14px 18px;
+          background-color: rgba(245, 130, 32, 0.07);
+          border: 1px solid rgba(245, 130, 32, 0.22);
+          border-radius: 14px;
+          margin-bottom: 32px;
+          max-width: 580px;
+          box-sizing: border-box;
+        }
+
+        .velocity-actions-row {
+          display: flex;
+          align-items: center;
+          flex-wrap: wrap;
+          gap: 14px;
+          margin-top: auto;
+          padding-top: 8px;
+        }
+
+        .velocity-nav-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 12px 18px;
+          background-color: transparent;
+          border: 1px solid rgba(0, 0, 0, 0.12);
+          border-radius: 9999px;
+          font-size: 0.84rem;
+          font-weight: 600;
+          transition: all 0.2s ease;
+        }
+
+        .velocity-right-column {
+          background-color: #F6F4F0;
+          border-radius: 20px;
+          padding: 32px 28px;
+          border: 1px solid rgba(0, 0, 0, 0.06);
+          display: flex;
+          flex-direction: column;
+          justifyContent: space-between;
+          height: 100%;
+          box-sizing: border-box;
+        }
+
         @media (max-width: 1024px) {
           .velocity-tabs-grid {
             grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -586,7 +616,7 @@ export default function VelocityLineSection({ onOpenEnquiry }: VelocityLineSecti
           }
         }
         @media (max-width: 900px) {
-          .velocity-inspector-grid {
+          .velocity-inspector-card {
             grid-template-columns: 1fr;
             gap: 28px;
           }
@@ -596,14 +626,6 @@ export default function VelocityLineSection({ onOpenEnquiry }: VelocityLineSecti
             grid-template-columns: 1fr;
             gap: 10px;
           }
-        }
-        .velocity-tab-node:hover {
-          border-color: rgba(0, 0, 0, 0.22) !important;
-          transform: translateY(-2px);
-        }
-        .velocity-tab-node.active:hover {
-          border-color: var(--color-obsidian) !important;
-          transform: translateY(-3px);
         }
       `}</style>
     </section>

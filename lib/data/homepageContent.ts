@@ -1,3 +1,5 @@
+import { assetPath } from "@/lib/utils/basePath";
+
 export interface NavLink {
   label: string;
   href: string;
@@ -189,7 +191,7 @@ export const categoryCardsData: CategoryCardData[] = [
       "Zero-maintenance lease structure",
       "24/7 dedicated roadside concierge",
     ],
-    image: "/images/luxury-fleet.jpg",
+    image: assetPath("/images/luxury-fleet.jpg"),
   },
   {
     id: "construction-warehouse",
@@ -212,7 +214,7 @@ export const categoryCardsData: CategoryCardData[] = [
       "OEM authorised service network maintenance",
       "BOCW Act compliant configuration",
     ],
-    image: "/images/construction-warehouse.jpg",
+    image: assetPath("/images/construction-warehouse.jpg"),
   },
   {
     id: "it-hardware",
@@ -235,7 +237,7 @@ export const categoryCardsData: CategoryCardData[] = [
       "Certified data sanitization & wipe on return",
       "Hardware replacement on fault within 48 hours",
     ],
-    image: "/images/it-hardware.jpg",
+    image: assetPath("/images/it-hardware.jpg"),
   },
 ];
 

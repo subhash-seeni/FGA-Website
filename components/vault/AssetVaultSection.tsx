@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { categoryCardsData } from "@/lib/data/homepageContent";
+import { assetPath } from "@/lib/utils/basePath";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -192,7 +193,7 @@ export default function AssetVaultSection({ onOpenEnquiry }: AssetVaultSectionPr
                     }}
                   >
                     <Image
-                      src={cat.image}
+                      src={assetPath(cat.image)}
                       alt={cat.title}
                       fill
                       sizes="(max-width: 900px) 100vw, 33vw"

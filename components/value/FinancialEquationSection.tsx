@@ -28,7 +28,7 @@ export default function FinancialEquationSection() {
               opacity: 1,
               duration: 0.7,
               ease: "power2.out",
-              clearProps: "all",
+              clearProps: "transform,opacity",
               scrollTrigger: {
                 trigger: sectionRef.current,
                 start: "top 80%",
@@ -45,7 +45,7 @@ export default function FinancialEquationSection() {
               opacity: 1,
               duration: 0.7,
               ease: "power2.out",
-              clearProps: "all",
+              clearProps: "transform,opacity",
               scrollTrigger: {
                 trigger: sectionRef.current,
                 start: "top 80%",
@@ -63,7 +63,7 @@ export default function FinancialEquationSection() {
               duration: 0.6,
               stagger: 0.12,
               ease: "back.out(1.4)",
-              clearProps: "all",
+              clearProps: "transform,opacity",
               scrollTrigger: {
                 trigger: sectionRef.current,
                 start: "top 75%",

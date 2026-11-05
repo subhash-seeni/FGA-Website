@@ -4,6 +4,7 @@ import React, { useState, useRef } from "react";
 import Image from "next/image";
 import { ArrowUpRight, Check } from "lucide-react";
 import { categoryCardsData } from "@/lib/data/homepageContent";
+import { assetPath } from "@/lib/utils/basePath";
 import { gsap, useGSAP } from "@/lib/animations/gsap";
 
 interface EditorialCategoriesProps {
@@ -183,7 +184,7 @@ export default function EditorialCategories({ onOpenEnquiry }: EditorialCategori
                   }}
                 >
                   <Image
-                    src={cat.image}
+                    src={assetPath(cat.image)}
                     alt={cat.title}
                     fill
                     sizes="56px"
@@ -269,7 +270,7 @@ export default function EditorialCategories({ onOpenEnquiry }: EditorialCategori
               }}
             >
               <Image
-                src={activeCategory.image}
+                src={assetPath(activeCategory.image)}
                 alt={`${activeCategory.title}: ${activeCategory.subtitle} offered under Firstgen Assets operating lease`}
                 fill
                 sizes="(max-width: 900px) 100vw, 60vw"
