@@ -316,7 +316,7 @@ export default function TypographicFooter() {
               letterSpacing: "0.08em",
               lineHeight: 0.85,
               textTransform: "uppercase",
-              WebkitTextStroke: "1px rgba(255, 255, 255, 0.08)",
+              WebkitTextStroke: "1.5px rgba(255, 255, 255, 0.22)",
               color: "transparent",
               whiteSpace: "nowrap",
               willChange: "transform",
